@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+    server:
+        build: ./api/
+        command: main.py
+        ports:
+            - 8080:8080
+    client:
+        build: ./test_suit_for_api/
+        entrypoint:  "pytest"
+        network_mode: host
+        depends_on:
+            - server

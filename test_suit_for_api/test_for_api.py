@@ -1,18 +1,32 @@
 import pytest
-import requests
+from data_for_testing import UserClient
+from log_for_test import LogTest
 
-def test_for_users():
-    r = requests.get('http:/localhost:8080//users').text
+@pytest.fixture(scope="session")
+def start_log():
+    log_test = LogTest()
+    log_test.create_log_file()
+
+@pytest.fixture(scope="function", autouse=True)
+def create_new_test_object():
+    new_test_object = UserClient()
+    return new_test_object
+
+def test_for_users(create_new_test_object, start_log):
+    r = create_new_test_object._UserClient__get_user()
     assert r == '["Bloom", "Stella", "Musa", "Flora", "Techna"]'
 
-def test_for_department():
-    r = requests.get('http://127.0.0.1:8080/department').text
-    assert r == '["Fire fairy", "Light fairy", "Music fairy", "Nature fairy", "Technology fairy"]'
+def test_for_department(create_new_test_object):
+    r = create_new_test_object._UserClient__get_user(department='Fir')
+    assert r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com",' \
+                ' "department": "Fire fairy", "date_joined": "2020-09-10"}]'
 
-def test_for_uniq_username():
-    r = requests.get('http://127.0.0.1:8080/users?username=lo').text
-    assert r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com", "department": "Fire fairy", "date_joined": "2020-09-10"}, {"id": 3, "username": "Flora", "email": "pes_blatnoy@gmail.com", "department": "Nature fairy", "date_joined": "2020-09-13"}]'
+def test_for_uniq_username(create_new_test_object):
+    r = create_new_test_object._UserClient__get_user(username='lo')
+    assert r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com", "department": "Fire fairy",' \
+                ' "date_joined": "2020-09-10"}, {"id": 3, "username": "Flora", "email": "pes_blatnoy@gmail.com", "department": "Nature fairy", "date_joined": "2020-09-13"}]'
 
-def test_for_uniq_username_and_department():
-    r = requests.get('http://127.0.0.1:8080/users?username=lo&department=Fire').text
-    assert r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com", "department": "Fire fairy", "date_joined": "2020-09-10"}]'
+def test_for_uniq_username_and_department(create_new_test_object):
+    r = create_new_test_object._UserClient__get_user(username='lo', department='Fire')
+    assert r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com",' \
+                ' "department": "Fire fairy", "date_joined": "2020-09-10"}]', logging.error()

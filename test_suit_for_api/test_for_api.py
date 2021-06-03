@@ -17,7 +17,7 @@ def create_new_test_object():
     return new_test_object
 
 def test_for_users(create_new_test_object):
-
+    r = create_new_test_object._UserClient__get_user()
     if r == '["Bloom", "Stella", "Musa", "Flora", "Techna"]':
         logging.info("ok!!!")
     else:

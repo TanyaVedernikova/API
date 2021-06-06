@@ -1,9 +1,6 @@
 import cherrypy
 import json
 
-
-
-
 @cherrypy.tools.json_out()
 @cherrypy.expose
 class Users:
@@ -12,8 +9,7 @@ class Users:
     with open(path, 'r') as f:
         data_users = json.loads(f.read())
 
-
-    def GET(self, username = None, department = None):
+    def GET(self, username=None, department=None):
         if username == None:
             data1 = Users.data_users["users"]
         else:
@@ -29,29 +25,22 @@ class Users:
 @cherrypy.expose
 class Department:
 
-    def GET(self, name = None):
-        list_of_departments = []
+    path = 'data_users.json'
+    with open(path, 'r') as f:
+        data_users = json.loads(f.read())
+
+    def GET(self, name=None):
         if name == None:
-            for items in list_of_users:
-                list_of_departments.append(items.get('department'))
-            return list_of_departments
+            data1 = [user["department"] for user in Users.data_users["users"]]
         else:
-            for items in list_of_users:
-                if items.get('department').find(name) != -1:
-                    list_of_departments.append(items.get('department'))
-            return list_of_departments
-
-
+            data1 = [user for user in Users.data_users["users"] if user["department"].find(name_of_department) != -1]
+        return data1
 
 def start_api():
     cherrypy.engine.start()
     cherrypy.engine.block()
 def finish_api():
     cherrypy.engine.stop()
-
-
-
-
 
 cherrypy.tree.mount(
     Users(), '/users', {
@@ -66,7 +55,6 @@ cherrypy.tree.mount(
     }
 
 )
-
 start_api()
 
 

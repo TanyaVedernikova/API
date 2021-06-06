@@ -1,4 +1,6 @@
 pytest
 requests
-logging
 datetime
+logging
+json
+configparser

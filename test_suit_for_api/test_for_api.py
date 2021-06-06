@@ -1,7 +1,7 @@
 import pytest
-import datetime
 import logging
-from data_for_testing import UserClient
+import datetime
+from client import UserClient
 
 name_log = str(datetime.datetime.now())
 name_log = name_log.replace(' ', '_')
@@ -9,42 +9,36 @@ name_log = name_log.replace('.', '_')
 name_log = name_log.replace(':', '_')
 logging.basicConfig(format=u'%(filename)s[LINE:%(lineno)d]# %(levelname)-8s [%(asctime)s]  %(message)s',
                     level=logging.DEBUG, filename=name_log + '.log')
-my_file = open(str(name_log + '.log'), "w+")
 
-@pytest.fixture(scope="function", autouse=True)
-def create_new_test_object():
-    new_test_object = UserClient()
-    return new_test_object
+open(str(name_log + '.log'), "w+")
 
-def test_for_users(create_new_test_object):
 
-    if r == '["Bloom", "Stella", "Musa", "Flora", "Techna"]':
-        logging.info("ok!!!")
-    else:
-        logging.error("FAIL")
+def test_check_availability_users_status_200(user):
+    res = user.get_user()
+    res.raise_for_status()
+    logging.info("users answer 200")
 
-def test_for_department(create_new_test_object):
-    r = create_new_test_object._UserClient__get_user(department='Fir')
-    if r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com",' \
-                ' "department": "Fire fairy", "date_joined": "2020-09-10"}]':
-        logging.info("ok")
-    else:
-        logging.error("bad")
+def test_username(random_user_data, user):
+    randoms = random_user_data
+    res = user.get_user(username=randoms["username"])
+    randoms = "[" + str(random_user_data) + ']'
+    assert str(res.json()) == randoms
 
-def test_for_uniq_username(create_new_test_object):
-    r = create_new_test_object._UserClient__get_user(username='lo')
-    if  r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com", "department": "Fire fairy",' \
-                ' "date_joined": "2020-09-10"}, {"id": 3, "username": "Flora", "email": "pes_blatnoy@gmail.com",' \
-             ' "department": "Nature fairy", "date_joined": "2020-09-13"}]':
-        logging.info("ok")
-    else:
-        logging.error("bad")
 
-def test_for_uniq_username_and_department(create_new_test_object):
-    r = create_new_test_object._UserClient__get_user(username='lo', department='Fire')
-    if r == '[{"id": 0, "username": "Bloom", "email": "crazyfrog@dot.com",' \
-                ' "department": "Fire fairy", "date_joined": "2020-09-10"}]':
-        logging.info("ok")
-    else:
-        logging.info("bad")
+
+def test_department(random_user_data, user):
+    randoms = random_user_data
+    res = user.get_user(department=randoms["department"])
+    randoms = "[" + str(random_user_data) + ']'
+    assert str(res.json()) == randoms
+
+def test_username_and_department(random_user_data, user):
+    randoms = random_user_data
+    res = user.get_user(username=randoms["username"], department=randoms["department"])
+    randoms = "[" + str(random_user_data) + ']'
+    assert str(res.json()) == randoms
+
+
+
+
 

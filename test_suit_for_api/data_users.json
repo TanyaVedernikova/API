@@ -1,0 +1,34 @@
+
+    {
+      "users": [
+
+    {"id": 0,
+    "username": "Bloom",
+    "email": "crazyfrog@dot.com",
+    "department": "Fire fairy",
+    "date_joined": "2020-09-10"
+    },
+    {"id": 1,
+    "username": "Stella",
+    "email": "deadinside228@mail.ru",
+    "department": "Light fairy",
+    "date_joined": "2020-09-11"
+    },
+    {"id": 2,
+    "username": "Musa",
+    "email": "dillerganjubas@gmail.com",
+    "department": "Music fairy",
+    "date_joined": "2020-09-12"
+    },
+    {"id": 3,
+     "username": "Flora",
+     "email": "pes_blatnoy@gmail.com",
+     "department": "Nature fairy",
+     "date_joined": "2020-09-13"
+     },
+    {"id": 4,
+     "username": "Techna",
+     "email": "polupoker_and_chilipizdric@gmail.com",
+     "department": "Technology fairy",
+     "date_joined": "2020-09-14"
+     }]}

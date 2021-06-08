@@ -1,6 +1,4 @@
 pytest
 requests
 datetime
-logging
-json
 configparser

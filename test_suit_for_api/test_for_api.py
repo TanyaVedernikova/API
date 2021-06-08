@@ -14,29 +14,23 @@ open(str(name_log + '.log'), "w+")
 
 
 def test_check_availability_users_status_200(user):
-    res = user.get_user()
-    res.raise_for_status()
+    user.get_user().raise_for_status()
     logging.info("users answer 200")
 
 def test_username(random_user_data, user):
-    randoms = random_user_data
-    res = user.get_user(username=randoms["username"])
-    randoms = "[" + str(random_user_data) + ']'
-    assert str(res.json()) == randoms
+    res = user.get_user(username=random_user_data["username"])
+    assert res.json().pop() == random_user_data
 
 
 
 def test_department(random_user_data, user):
-    randoms = random_user_data
-    res = user.get_user(department=randoms["department"])
-    randoms = "[" + str(random_user_data) + ']'
-    assert str(res.json()) == randoms
+    res = user.get_user(department=random_user_data["department"])
+    assert res.json().pop() == random_user_data
 
 def test_username_and_department(random_user_data, user):
-    randoms = random_user_data
-    res = user.get_user(username=randoms["username"], department=randoms["department"])
-    randoms = "[" + str(random_user_data) + ']'
-    assert str(res.json()) == randoms
+    res = user.get_user(username=random_user_data["username"],department=random_user_data["department"])
+    assert res.json().pop() == random_user_data
+
 
 
 

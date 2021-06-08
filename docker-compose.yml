@@ -1,13 +1,19 @@
 version: '3.8'
 services:
     server:
-        build: ./api/
-        command: main.py
-        ports:
-            - 8080:8080
+        build: api
+        expose:
+            - 8080
+        networks:
+            - my_net
+        restart: always
     client:
-        build: ./test_suit_for_api/
-        entrypoint:  "pytest"
-        network_mode: host
-        depends_on:
-            - server
+        build: test_suit_for_api
+        networks:
+            - my_net
+
+networks:
+    my_net:
+        driver: bridge
+
+

@@ -1,7 +1,7 @@
-FROM python:3.7-alpine
+FROM python:3.7
 WORKDIR /api
-COPY requirements.txt /api
+ADD main.py /api/
+COPY . /api
 RUN pip install -r requirements.txt --no-cache-dir
-ADD main.py /api
-ENTRYPOINT [ "python" ]
-CMD ["main.py"]
+ENTRYPOINT [ "python", "main.py" ]
+
